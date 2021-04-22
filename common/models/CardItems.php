@@ -64,7 +64,7 @@ class CardItems extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Product]].
      *
-     * @return \yii\db\ActiveQuery|ProductsQuery
+     * @return \yii\db\ActiveQuery|ProductQuery
      */
     public function getProduct()
     {

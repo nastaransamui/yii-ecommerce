@@ -124,6 +124,14 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+    /**
+     * {@inheritdoc}
+     * @return \common\models\query\ProductQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \common\models\query\ProductQuery(get_called_class());
+    }
 
     public function save($runValidation = true, $attributeNames = null)
     {
@@ -152,5 +160,10 @@ class Product extends \yii\db\ActiveRecord
         return Yii::$app->params['frontendUrl'].'/storage'. $this->image;
       }
       return Yii::$app->params['frontendUrl'].'/img/no_image_available.png';
+    }
+
+    public function getShortDescription()
+    {
+      return \yii\helpers\StringHelper::truncateWords(strip_tags($this->description), 10);
     }
 }
