@@ -3,9 +3,9 @@
 namespace common\models\query;
 
 /**
- * This is the ActiveQuery class for [[\app\models\Products]].
+ * This is the ActiveQuery class for [[\app\models\Product]].
  *
- * @see \app\models\Products
+ * @see \app\models\Product
  */
 class ProductQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class ProductQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \app\models\Products[]|array
+     * @return \app\models\Product[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class ProductQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \app\models\Products|array|null
+     * @return \app\models\Product|array|null
      */
     public function one($db = null)
     {

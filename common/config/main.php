@@ -9,5 +9,8 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'formatter' =>[
+          'datetimeFormat' => 'php:d/M/Y H:i',
+        ]
     ],
 ];
