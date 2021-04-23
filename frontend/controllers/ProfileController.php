@@ -12,7 +12,7 @@ use yii\web\ForbiddenHttpException;
 /**
  *
  */
-class ProfileController extends Controller
+class ProfileController extends \frontend\base\Controller
 {
     /**
      * @inheritdoc

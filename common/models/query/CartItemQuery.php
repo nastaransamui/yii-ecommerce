@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\models\query;
 
 /**
  * This is the ActiveQuery class for [[CardItems]].
@@ -30,5 +30,15 @@ class CartItemQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    public function userId($userId)
+    {
+      return $this->andWhere(['created_by' => $userId]);
+    }
+
+    public function productId($productId)
+    {
+      return $this->andWhere(['product_id' => $productId]);
     }
 }
