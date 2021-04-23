@@ -59,7 +59,7 @@ class UserAddress extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery|\common\models\query\UserQuery
      */
     public function getUser()
     {
@@ -68,10 +68,10 @@ class UserAddress extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return UserAddressQuery the active query used by this AR class.
+     * @return \common\models\query\UserAddressQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UserAddressQuery(get_called_class());
+        return new \common\models\query\UserAddressQuery(get_called_class());
     }
 }
