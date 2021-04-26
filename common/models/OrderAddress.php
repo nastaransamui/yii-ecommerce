@@ -14,7 +14,7 @@ use Yii;
  * @property string $country
  * @property string|null $zipcode
  *
- * @property Orders $order
+ * @property Order $order
  */
 class OrderAddress extends \yii\db\ActiveRecord
 {
@@ -36,7 +36,7 @@ class OrderAddress extends \yii\db\ActiveRecord
             [['order_id'], 'integer'],
             [['address', 'city', 'state', 'country', 'zipcode'], 'string', 'max' => 255],
             [['order_id'], 'unique'],
-            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Orders::className(), 'targetAttribute' => ['order_id' => 'id']],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
         ];
     }
 
