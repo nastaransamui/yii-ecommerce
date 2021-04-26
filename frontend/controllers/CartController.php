@@ -27,13 +27,20 @@ class CartController extends \frontend\base\Controller
         'formats' => [
         'application/json' => Response::FORMAT_JSON,
         ]
+      ],
+      [
+        'class' => yii\filters\VerbFilter::class,
+        'actions' => [
+          'delete' => ['POST', 'DELETE'],
+        ]
       ]
     ];
   }
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
+        if (isGuest()) {
           // Get the items from session
+          $cardItems =  \Yii::$app->session->get(CartItem::SESSION_KEY,[]);
         }else{
           //Get the items from database
           $cardItems = CartItem::findBySql(
@@ -69,7 +76,29 @@ class CartController extends \frontend\base\Controller
 
       if (\Yii::$app->user->isGuest) {
         // Save in session
+        $cartItems = \Yii::$app->session->get(CartItem::SESSION_KEY, []);
+        $found = false;
+        foreach ($cartItems as &$cartItem) {
+          if ($cartItem['id'] == $id) {
+            $cartItem['quantity']++;
+            $found = true;
+            break;
+          }
+        }
+        if (!$found) {
+        $cartItem = [
+          'id' => $id,
+          'name' => $product->name,
+          'image' => $product->image,
+          'price' => $product->price,
+          'quantity' => 1,
+          'total_price' => $product->price
+        ];
+        $cartItems[] = $cartItem;
+        }
+        \Yii::$app->session->set(CartItem::SESSION_KEY, $cartItems);
       }else{
+        // Save in database
         $userId = \Yii::$app->user->id;
         $cartItem = CartItem::find()->userId($userId)->productId($id)->one();
         if ($cartItem) {
@@ -91,5 +120,23 @@ class CartController extends \frontend\base\Controller
           ];
         }
       }
+    }
+
+    public function actionDelete($id)
+    {
+      if (isGuest()) {
+        $cardItems =  \Yii::$app->session->get(CartItem::SESSION_KEY,[]);
+        foreach ($cardItems as $i => $cardItem) {
+          if ($cardItem['id'] == $id) {
+            array_splice($cardItems, $i, 1);
+            break;
+          }
+        }
+        \Yii::$app->session->set(CartItem::SESSION_KEY,$cardItems);
+      }else{
+        CartItem::deleteAll(['product_id' => $id, 'created_by' => currUserId()]);
+      }
+
+      return $this->redirect(['index']);
     }
 }
