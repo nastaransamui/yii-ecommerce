@@ -7,11 +7,13 @@
   use yii\helpers\Html;
   use yii\bootstrap4\ActiveForm;
  ?>
- <?php $form = ActiveForm::begin([
-     'id' => 'checkout-form',
- ]); ?>
+
+  <?php $form = ActiveForm::begin([
+      'id' => 'checkout-form',
+  ]); ?>
  <div class="row">
      <div class="col">
+
          <div class="card mb-3">
              <div class="card-header">
                  <h5>Account information</h5>
@@ -41,6 +43,7 @@
                  <?= $form->field($orderAddress, 'zipcode') ?>
              </div>
          </div>
+
      </div>
      <div class="col">
          <div class="card">
@@ -58,7 +61,7 @@
                      </tr>
                      </thead>
                      <tbody>
-                     
+
                      </tbody>
                  </table>
                  <hr>
@@ -74,7 +77,6 @@
                          </td>
                      </tr>
                  </table>
-
                  <p class="text-right mt-3">
                      <button class="btn btn-secondary">Checkout</button>
                  </p>
@@ -82,4 +84,4 @@
          </div>
      </div>
  </div>
- <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>

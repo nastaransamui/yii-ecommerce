@@ -67,10 +67,10 @@ class OrderAddress extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return OrderAddressQuery the active query used by this AR class.
+     * @return \common\models\query\OrderAddressQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new OrderAddressQuery(get_called_class());
+        return new \common\models\query\OrderAddressQuery(get_called_class());
     }
 }

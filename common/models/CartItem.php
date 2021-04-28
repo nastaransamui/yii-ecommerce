@@ -63,6 +63,14 @@ class CartItem extends \yii\db\ActiveRecord
         return $sum;
         }
 
+        public static function clearCartItems($currUserId){
+          if (isGuest()) {
+             \Yii::$app->session->remove(CartItem::SESSION_KEY,[]);
+          }else{
+            CartItem::deleteAll(['created_by' => $currUserId]);
+          }
+        }
+
     /**
      * {@inheritdoc}
      */
@@ -119,21 +127,26 @@ class CartItem extends \yii\db\ActiveRecord
     }
     public static function getItemsForUser($currUserId)
     {
-      return CartItem::findBySql(
-        "SELECT
-        c.product_id as id,
-        p.image,
-        p.name,
-        p.price,
-        c.quantity,
-        p.price * c.quantity as total_price
-        FROM cart_items c
-        LEFT JOIN products p on p.id = c.product_id
-        WHERE c.created_by = :userId
-        ",[
-          'userId' => $currUserId
-        ])
-        ->asArray()
-        ->all();
+      if (\Yii::$app->user->isGuest) {
+        $cardItems =  \Yii::$app->session->get(CartItem::SESSION_KEY,[]);
+      }else{
+        $cardItems = CartItem::findBySql(
+          "SELECT
+          c.product_id as id,
+          p.image,
+          p.name,
+          p.price,
+          c.quantity,
+          p.price * c.quantity as total_price
+          FROM cart_items c
+          LEFT JOIN products p on p.id = c.product_id
+          WHERE c.created_by = :userId
+          ",[
+            'userId' => $currUserId
+          ])
+          ->asArray()
+          ->all();
+      }
+      return $cardItems;
     }
 }
