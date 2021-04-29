@@ -11,6 +11,7 @@ return [
         ],
         'formatter' =>[
           'datetimeFormat' => 'php:d/M/Y H:i',
+          'class' => \common\i18n\Formatter::class,
         ]
     ],
 ];

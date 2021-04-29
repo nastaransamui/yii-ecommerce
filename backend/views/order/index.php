@@ -1,11 +1,12 @@
 <?php
 
+use yii\bootstrap4\LinkPager;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\search\OrderSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/** @var $this yii\web\View */
+/** @var $searchModel backend\models\search\OrderSearch */
+/** @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Orders';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,25 +20,38 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <i class="fas fa-chevron-up"></i>
     <?= GridView::widget([
+        'id' => 'ordersTable',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'class' => LinkPager::class,
+        ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'total_price',
-            'status',
-            'firstname',
-            'lastname',
+            [
+                'attribute' => 'id',
+                'contentOptions' => ['style' => 'width: 80px']
+            ],
+            [
+                'attribute' => 'fullname',
+                'content' => function($model){
+                    return $model->firstname. ' ' .$model->lastname;
+                },
+            ],
+            'total_price:currency',
             //'email:email',
             //'transaction_id',
             //'paypal_order_id',
-            //'created_at',
+            'status:OrderStatus',
+            'created_at:datetime',
             //'created_by',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'common\grid\ActionColumn',
+                'template' => '{view} {delete} '
+            ],
+            
         ],
     ]); ?>
 
