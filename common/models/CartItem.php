@@ -46,7 +46,7 @@ class CartItem extends \yii\db\ActiveRecord
         public static function getTotalPriceForUser($currUserId)
         {
           if (isGuest()) {
-          $cartItems = \Yii::$app->session->get(CartItem::SESSION_KEY, []);
+          $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
                $sum = 0;
                foreach ($cartItems as $cartItem) {
                    $sum += $cartItem['quantity'] * $cartItem['price'];
@@ -63,9 +63,32 @@ class CartItem extends \yii\db\ActiveRecord
         return $sum;
         }
 
+        public static function getTotalPriceForItemForUser($productId, $currUserId)
+        {
+          if (isGuest()) {
+          $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
+               $sum = 0;
+               foreach ($cartItems as $cartItem) {
+                 if ($cartItem['id'] == $productId) {
+                  $sum += $cartItem['quantity'] * $cartItem['price'];
+                 }
+               }
+        }else {
+          $sum = CartItem::findBySql(
+            "SELECT SUM(c.quantity * p.price)
+            FROM cart_items c
+            LEFT JOIN products p on p.id = c.product_id
+            WHERE c.product_id = :id 
+            AND c.created_by= :userId",
+            ['id' => $productId, 'userId'=>$currUserId]
+            )->scalar();
+        }
+        return $sum;
+        }
+
         public static function clearCartItems($currUserId){
           if (isGuest()) {
-             \Yii::$app->session->remove(CartItem::SESSION_KEY,[]);
+             Yii::$app->session->remove(CartItem::SESSION_KEY,[]);
           }else{
             CartItem::deleteAll(['created_by' => $currUserId]);
           }

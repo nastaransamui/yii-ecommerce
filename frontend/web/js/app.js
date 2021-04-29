@@ -26,8 +26,11 @@ $(function(){
       method: 'POST',
       url: $tr.data('url'),
       data: {id, quantity: $this.val()},
-      success: function(totalQuantity){
-        $cartQuantity.text(totalQuantity)
+      success: function(result){
+        console.log(result)
+        $cartQuantity.text(result.quantity);
+        $td.next().text(result.price);
+        
       }
     })
   })

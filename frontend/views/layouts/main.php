@@ -82,7 +82,14 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
+        <div class="row">
+        <div class="col">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+        </div>
+        <div class="col text-right">
+          <p class="pull-right">Created by <a href="https://nastaransamui.github.io/" target="_blank">MJ2020</a> </p>
+        </div>
+        </div>
     </div>
 </footer>
 
