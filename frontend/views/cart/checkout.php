@@ -1,11 +1,12 @@
 <?php
-  /** @var \common\models\Order $order*/
-  /** @var \common\models\OrderAddress $orderAddress*/
-  /** @var array $cartItems*/
-  /** @var int $productQuantity*/
-  /** @var float $totalPrice*/
-  use yii\helpers\Html;
-  use yii\bootstrap4\ActiveForm;
+/** @var \common\models\Order $order */
+/** @var \common\models\OrderAddress $orderAddress */
+/** @var array $cartItems */
+/** @var int $productQuantity */
+
+/** @var float $totalPrice */
+
+use yii\bootstrap4\ActiveForm;
  ?>
 
   <?php $form = ActiveForm::begin([
@@ -51,19 +52,33 @@
                  <h5>Order Summary</h5>
              </div>
              <div class="card-body">
-                 <table class="table table-sm">
-                     <thead>
-                     <tr>
-                         <th>Image</th>
-                         <th>Name</th>
-                         <th>Quantity</th>
-                         <th>Price</th>
-                     </tr>
-                     </thead>
-                     <tbody>
-
-                     </tbody>
-                 </table>
+          <table class="table table-sm">
+              <thead>
+              <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php foreach ($cartItems as $item): ?>
+                
+                        <tr >
+                            <td>
+                                <img src="<?php echo \common\models\Product::formatImageUrl($item['image']) ?>"
+                                     style="width: 50px;"
+                                     alt="<?php echo $item['name'] ?>">
+                            </td>
+                            <td><?php echo $item['name'] ?></td>
+                            <td>
+                                <?php echo $item['quantity'] ?>
+                            </td>
+                            <td><?php echo Yii::$app->formatter->asCurrency($item['total_price']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+              </tbody>
+          </table>
                  <hr>
                  <table class="table">
                      <tr>

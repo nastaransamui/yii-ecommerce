@@ -160,12 +160,12 @@ class CartController extends \frontend\base\Controller
 
     public function actionCheckout()
     {
-      $cardItems = CartItem::getItemsForUser(currUserId());
+      $cartItems = CartItem::getItemsForUser(currUserId());
       $productQuantity = CartItem::getTotalQuantityForUser(currUserId());
       $totalPrice = CartItem::getTotalPriceForUser(currUserId());
 
 
-      if (empty($cardItems)) {
+      if (empty($cartItems)) {
         return $this->redirect([Yii::$app->homeUrl]);
       }
 
@@ -190,8 +190,9 @@ class CartController extends \frontend\base\Controller
       }
 
       $orderAddress = new OrderAddress();
-      $cartItems = Yii::$app->session->get(CartItem::SESSION_KEY, []);
+      
       if (!isGuest()) {
+         /** @var \common\models\User $user */
         $user = Yii::$app->user->identity;
         $userAddress =$user->getAddress();
         $order->firstname = $user->firstname;
@@ -199,7 +200,6 @@ class CartController extends \frontend\base\Controller
         $order->email = $user->email;
         $order->status = Order::STATUS_DRAFT;
 
-        $orderAddress = new OrderAddress();
         $orderAddress->address = $userAddress->address;
         $orderAddress->city = $userAddress->city;
         $orderAddress->state = $userAddress->state;
